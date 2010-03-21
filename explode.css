@@ -1,0 +1,10 @@
+body { 
+  font-family:sans-serif; 
+  font-size:200%; 
+ 
+}
+
+ol#letters { 
+  list-style-type: none;
+}
+
