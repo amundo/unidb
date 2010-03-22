@@ -1,26 +1,31 @@
 <?php
 
-  $database = 'unicode';
 
-  $dsn="sqlite:$database.db";
+  function info_by_name($query){
+    $database = 'unicode';
 
-  try { 
-   $pdo = new PDO($dsn);   
-  } catch(PDOException $e) { 
-   die ('Connection to ' . $database . ' failed.'); 
-  } 
+    $dsn="sqlite:$database.db";
 
-  $query = $_GET['query'];
-  $sql = "select * from unicode where name like ?";
-  $pds = $pdo->prepare($sql);
-  $pds->execute(array('%' . $query . '%'));
+    try { 
+     $pdo = new PDO($dsn);   
+    } catch(PDOException $e) { 
+     die ('Connection to ' . $database . ' failed.'); 
+    } 
 
-  $results = array();
+    $sql = "select * from unicode where name like ?";
+    $pds = $pdo->prepare($sql);
+    $pds->execute(array('%' . $query . '%'));
 
-  foreach ($pds as $character){
-    $results[] = $character;
+    $results = array();
+
+    foreach ($pds as $character){
+      $results[] = $character;
+    }
+
+    #echo $_GET['callback'] . '(' . json_encode($results) . ');';
+    return json_encode($results) ;
   }
 
-  #echo $_GET['callback'] . '(' . json_encode($results) . ');';
-  echo json_encode($results) ;
+  echo info_by_name($_GET['query']);
+
 ?>
